@@ -7,9 +7,9 @@ You have an interface
 ```java
 public interface AccountService
 {
-    void deposit(int amount) 
-    void withdraw(int amount) 
-    void printStatement()
+    void deposit(int amount);
+    void withdraw(int amount); 
+    void printStatement();
 }
 ```
 
@@ -21,11 +21,10 @@ You cannot change the given interface
 
 ## Acceptance test
 
-    If a client deposit 1000 on 10-01-2012
-    and then he deposit 2000 on 13-01-2012
-    and then he withdraw 500 on 14-01-2012
-    When he ask for his bank statement, he should see:
-
+If a client deposits 1000 on 10-01-2012  
+and then he deposits 2000 on 13-01-2012  
+and then he withdraws 500 on 14-01-2012   
+when he asks for his bank statement, he should see:
 
 ```
 Date       || Amount || Balance
