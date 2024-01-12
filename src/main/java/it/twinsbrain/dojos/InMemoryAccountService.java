@@ -4,7 +4,6 @@ public class InMemoryAccountService implements AccountService {
   private final Balance balance;
 
   public InMemoryAccountService(Balance balance) {
-
     this.balance = balance;
   }
 
@@ -14,7 +13,9 @@ public class InMemoryAccountService implements AccountService {
   }
 
   @Override
-  public void withdraw(int amount) {}
+  public void withdraw(int amount) {
+    balance.decreaseBy(amount);
+  }
 
   @Override
   public void printStatement() {}

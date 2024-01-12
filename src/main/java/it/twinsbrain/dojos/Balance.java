@@ -14,6 +14,10 @@ public class Balance {
     value.addAndGet(amount);
   }
 
+  public void decreaseBy(int amount) {
+    value.addAndGet(-amount);
+  }
+
   public int value() {
     return value.get();
   }
