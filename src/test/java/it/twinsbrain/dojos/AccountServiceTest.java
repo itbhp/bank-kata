@@ -56,4 +56,27 @@ class AccountServiceTest {
             )
     );
   }
+
+  @Test
+  void print_statement_after_one_withdraw() {
+    var balance = new Balance(10);
+    var account = new InMemoryAccountService(
+            balance,
+            new FiveMinutesPacedTime(
+                    LocalDateTime.parse("2024-01-13T17:50:00.000")
+            ),
+            display
+    );
+
+    account.withdraw(3);
+
+    account.printStatement();
+
+    assertThat(display.messages(),
+            contains(
+                    "Date       || Amount || Balance",
+                    "13/01/2024 || -3     || 7"
+            )
+    );
+  }
 }

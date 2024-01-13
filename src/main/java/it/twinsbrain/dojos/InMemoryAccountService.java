@@ -47,10 +47,15 @@ public class InMemoryAccountService implements AccountService {
     display.print("Date       || Amount || Balance");
     movementList.forEach(
         movement -> {
+          var amount =
+              switch (movement) {
+                case Deposit deposit -> String.valueOf(deposit.amount());
+                case Withdraw withdraw -> "-" + withdraw.amount();
+              };
           var message =
               padRight(FORMATTER.format(movement.time()), 11)
                   + "|| "
-                  + padRight(String.valueOf(movement.amount()), 7)
+                  + padRight(amount, 7)
                   + "|| "
                   + balance.value();
           display.print(message);
