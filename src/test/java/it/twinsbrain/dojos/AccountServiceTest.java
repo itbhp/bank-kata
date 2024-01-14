@@ -11,16 +11,15 @@ import org.junit.jupiter.api.Test;
 
 class AccountServiceTest {
 
-  private final Time stubbedTime = new UpdatingTime(
-          LocalDateTime.parse("2024-01-12T12:30:00.000"),
-          previousTime -> previousTime.plusDays(1)
-  );
+  private final Time time =
+      new UpdatingTime(
+          LocalDateTime.parse("1970-01-12T12:30:00.000"), UnaryOperator.identity());
   private final InMemoryDisplay display = new InMemoryDisplay();
 
   @Test
   void deposit_increase_balance() {
     var balance = new Balance(0);
-    var account = new InMemoryAccountService(balance, stubbedTime, display);
+    var account = new InMemoryAccountService(balance, time, display);
 
     account.deposit(10);
 
@@ -30,7 +29,7 @@ class AccountServiceTest {
   @Test
   void withdraw_decrease_balance() {
     var balance = new Balance(10);
-    var account = new InMemoryAccountService(balance, stubbedTime, display);
+    var account = new InMemoryAccountService(balance, time, display);
 
     account.withdraw(3);
 
@@ -44,8 +43,7 @@ class AccountServiceTest {
         new InMemoryAccountService(
             balance,
             new UpdatingTime(
-                LocalDateTime.parse("2024-01-13T17:50:00.000"),
-                UnaryOperator.identity()),
+                LocalDateTime.parse("2024-01-13T17:50:00.000"), UnaryOperator.identity()),
             display);
 
     account.deposit(3);
@@ -54,21 +52,20 @@ class AccountServiceTest {
 
     assertThat(
         display.messages(),
-        contains("Date       || Amount || Balance",
-                "13/01/2024 || 3      || 13")
-    );
+        contains(
+                "Date       || Amount || Balance",
+                "13/01/2024 || 3      || 13"));
   }
 
   @Test
   void print_statement_after_one_withdraw() {
     var balance = new Balance(10);
     var account =
-            new InMemoryAccountService(
-                    balance,
-                    new UpdatingTime(
-                            LocalDateTime.parse("2024-01-13T17:50:00.000"),
-                            UnaryOperator.identity()),
-                    display);
+        new InMemoryAccountService(
+            balance,
+            new UpdatingTime(
+                LocalDateTime.parse("2024-01-13T17:50:00.000"), UnaryOperator.identity()),
+            display);
 
     account.withdraw(3);
 
@@ -76,21 +73,21 @@ class AccountServiceTest {
 
     assertThat(
         display.messages(),
-        contains("Date       || Amount || Balance",
-                "13/01/2024 || -3     || 7")
-    );
+        contains(
+                "Date       || Amount || Balance",
+                "13/01/2024 || -3     || 7"));
   }
 
   @Test
   void print_movements_from_most_recent() {
     var balance = new Balance(10);
     var account =
-            new InMemoryAccountService(
-                    balance,
-                    new UpdatingTime(
-                            LocalDateTime.parse("2024-01-13T17:50:00.000"),
-                            previousTime -> previousTime.plusDays(1)),
-                    display);
+        new InMemoryAccountService(
+            balance,
+            new UpdatingTime(
+                LocalDateTime.parse("2024-01-13T17:50:00.000"),
+                previousTime -> previousTime.plusDays(1)),
+            display);
 
     account.withdraw(3);
     account.withdraw(2);
