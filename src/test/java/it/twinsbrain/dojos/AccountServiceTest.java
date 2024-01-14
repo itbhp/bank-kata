@@ -6,12 +6,15 @@ import static org.hamcrest.Matchers.equalTo;
 
 import it.twinsbrain.dojos.model.Balance;
 import java.time.LocalDateTime;
+import java.util.function.UnaryOperator;
 import org.junit.jupiter.api.Test;
 
 class AccountServiceTest {
 
-  private final Time stubbedTime =
-      new OneDayPacedTime(LocalDateTime.parse("2024-01-12T12:30:00.000"));
+  private final Time stubbedTime = new UpdatingTime(
+          LocalDateTime.parse("2024-01-12T12:30:00.000"),
+          previousTime -> previousTime.plusDays(1)
+  );
   private final InMemoryDisplay display = new InMemoryDisplay();
 
   @Test
@@ -39,7 +42,11 @@ class AccountServiceTest {
     var balance = new Balance(10);
     var account =
         new InMemoryAccountService(
-            balance, new OneDayPacedTime(LocalDateTime.parse("2024-01-13T17:50:00.000")), display);
+            balance,
+            new UpdatingTime(
+                LocalDateTime.parse("2024-01-13T17:50:00.000"),
+                UnaryOperator.identity()),
+            display);
 
     account.deposit(3);
 
@@ -56,8 +63,12 @@ class AccountServiceTest {
   void print_statement_after_one_withdraw() {
     var balance = new Balance(10);
     var account =
-        new InMemoryAccountService(
-            balance, new OneDayPacedTime(LocalDateTime.parse("2024-01-13T17:50:00.000")), display);
+            new InMemoryAccountService(
+                    balance,
+                    new UpdatingTime(
+                            LocalDateTime.parse("2024-01-13T17:50:00.000"),
+                            UnaryOperator.identity()),
+                    display);
 
     account.withdraw(3);
 
@@ -74,8 +85,12 @@ class AccountServiceTest {
   void print_movements_from_most_recent() {
     var balance = new Balance(10);
     var account =
-        new InMemoryAccountService(
-            balance, new OneDayPacedTime(LocalDateTime.parse("2024-01-13T17:50:00.000")), display);
+            new InMemoryAccountService(
+                    balance,
+                    new UpdatingTime(
+                            LocalDateTime.parse("2024-01-13T17:50:00.000"),
+                            previousTime -> previousTime.plusDays(1)),
+                    display);
 
     account.withdraw(3);
     account.withdraw(2);
