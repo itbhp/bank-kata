@@ -17,7 +17,7 @@ class AccountServiceTest {
   private final InMemoryDisplay display = new InMemoryDisplay();
 
   @Test
-  void deposit_increase_balance() {
+  void deposit_increases_balance() {
     var balance = new Balance(0);
     var account = new InMemoryAccountService(balance, time, display);
 
@@ -27,7 +27,7 @@ class AccountServiceTest {
   }
 
   @Test
-  void withdraw_decrease_balance() {
+  void withdraw_decreases_balance() {
     var balance = new Balance(10);
     var account = new InMemoryAccountService(balance, time, display);
 
@@ -37,7 +37,7 @@ class AccountServiceTest {
   }
 
   @Test
-  void print_statement_after_one_deposit() {
+  void print_statement_after_one_deposit_works_fine() {
     var balance = new Balance(10);
     var account =
         new InMemoryAccountService(
@@ -58,7 +58,7 @@ class AccountServiceTest {
   }
 
   @Test
-  void print_statement_after_one_withdraw() {
+  void print_statement_after_one_withdraw_works_fine() {
     var balance = new Balance(10);
     var account =
         new InMemoryAccountService(
@@ -79,7 +79,7 @@ class AccountServiceTest {
   }
 
   @Test
-  void print_movements_from_most_recent() {
+  void print_movements_from_most_recent_or_in_reverse_chronological_order() {
     var balance = new Balance(10);
     var account =
         new InMemoryAccountService(
