@@ -50,7 +50,7 @@ public class InMemoryAccountService implements AccountService {
 
   @Override
   public void printStatement() {
-    display.print("Date       || Amount || Balance");
+    display.show("Date       || Amount || Balance");
     var balanceReversedQueue = new LinkedList<Integer>();
     balanceReversedQueue.add(balance.value());
     movementList.stream()
@@ -78,7 +78,7 @@ public class InMemoryAccountService implements AccountService {
                       + padRight(amount, 7)
                       + "|| "
                       + balanceReversedQueue.pollFirst();
-              display.print(message);
+              display.show(message);
             });
   }
 

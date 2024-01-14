@@ -7,7 +7,7 @@ public class InMemoryDisplay implements Display{
 
     private final List<String> messages = new ArrayList<>();
     @Override
-    public void print(String message) {
+    public void show(String message) {
         messages.add(message);
     }
 
