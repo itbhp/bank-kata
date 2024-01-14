@@ -1,4 +1,4 @@
-package it.twinsbrain.dojos;
+package it.twinsbrain.dojos.model;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

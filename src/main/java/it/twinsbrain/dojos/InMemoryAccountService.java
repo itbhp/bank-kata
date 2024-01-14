@@ -1,5 +1,9 @@
 package it.twinsbrain.dojos;
 
+import it.twinsbrain.dojos.model.Balance;
+import it.twinsbrain.dojos.model.Deposit;
+import it.twinsbrain.dojos.model.Movement;
+import it.twinsbrain.dojos.model.Withdraw;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
