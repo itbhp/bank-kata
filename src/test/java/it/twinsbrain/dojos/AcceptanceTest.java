@@ -20,7 +20,7 @@ public class AcceptanceTest {
             LocalDateTime.parse("2012-01-14T00:00:00.000")
     );
     var display = new InMemoryDisplay();
-    var accountService = new InMemoryAccountService(new Balance(0), time, display);
+    var accountService = new InMemoryAccountService(new Balance(), time, display);
 
     accountService.deposit(1000);
     accountService.deposit(2000);

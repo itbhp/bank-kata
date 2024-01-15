@@ -18,7 +18,7 @@ class AccountServiceTest {
 
   @Test
   void deposit_increases_balance() {
-    var balance = new Balance(0);
+    var balance = new Balance();
     var account = new InMemoryAccountService(balance, time, display);
 
     account.deposit(10);
@@ -28,9 +28,10 @@ class AccountServiceTest {
 
   @Test
   void withdraw_decreases_balance() {
-    var balance = new Balance(10);
+    var balance = new Balance();
     var account = new InMemoryAccountService(balance, time, display);
 
+    account.deposit(10);
     account.withdraw(3);
 
     assertThat(balance.value(), equalTo(7));
@@ -38,7 +39,7 @@ class AccountServiceTest {
 
   @Test
   void print_statement_after_one_deposit_works_fine() {
-    var balance = new Balance(10);
+    var balance = new Balance();
     var account =
         new InMemoryAccountService(
             balance,
@@ -54,12 +55,12 @@ class AccountServiceTest {
         display.messages(),
         contains(
                 "Date       || Amount || Balance",
-                "13/01/2024 || 3      || 13"));
+                "13/01/2024 || 3      || 3"));
   }
 
   @Test
   void print_statement_after_one_withdraw_works_fine() {
-    var balance = new Balance(10);
+    var balance = new Balance();
     var account =
         new InMemoryAccountService(
             balance,
@@ -75,12 +76,12 @@ class AccountServiceTest {
         display.messages(),
         contains(
                 "Date       || Amount || Balance",
-                "13/01/2024 || -3     || 7"));
+                "13/01/2024 || -3     || -3"));
   }
 
   @Test
   void print_movements_from_most_recent_or_in_reverse_chronological_order() {
-    var balance = new Balance(10);
+    var balance = new Balance();
     var account =
         new InMemoryAccountService(
             balance,
@@ -89,9 +90,9 @@ class AccountServiceTest {
                 previousTime -> previousTime.plusDays(1)),
             display);
 
+    account.deposit(25);
     account.withdraw(3);
     account.withdraw(2);
-    account.deposit(25);
 
     account.printStatement();
 
@@ -99,8 +100,8 @@ class AccountServiceTest {
         display.messages(),
         contains(
             "Date       || Amount || Balance",
-            "15/01/2024 || 25     || 30",
-            "14/01/2024 || -2     || 5",
-            "13/01/2024 || -3     || 7"));
+            "15/01/2024 || -2     || 20",
+            "14/01/2024 || -3     || 22",
+            "13/01/2024 || 25     || 25"));
   }
 }
