@@ -14,11 +14,11 @@ public class AcceptanceTest {
 
   @Test
   void itWorks() {
-    var time = new FixedMomentsTime(
+    var time =
+        new FixedMomentsTime(
             LocalDateTime.parse("2012-01-10T00:00:00.000"),
             LocalDateTime.parse("2012-01-13T00:00:00.000"),
-            LocalDateTime.parse("2012-01-14T00:00:00.000")
-    );
+            LocalDateTime.parse("2012-01-14T00:00:00.000"));
     var display = new InMemoryDisplay();
     var accountService = new InMemoryAccountService(new Balance(), time, display);
 
@@ -29,13 +29,12 @@ public class AcceptanceTest {
     accountService.printStatement();
 
     assertThat(
-            display.messages(),
-            contains(
-                    "Date       || Amount || Balance",
-                    "14/01/2012 || -500   || 2500",
-                    "13/01/2012 || 2000   || 3000",
-                    "10/01/2012 || 1000   || 1000")
-    );
+        display.messages(),
+        contains(
+            "Date       || Amount || Balance",
+            "14/01/2012 || -500   || 2500",
+            "13/01/2012 || 2000   || 3000",
+            "10/01/2012 || 1000   || 1000"));
   }
 
   private static class FixedMomentsTime implements Time {

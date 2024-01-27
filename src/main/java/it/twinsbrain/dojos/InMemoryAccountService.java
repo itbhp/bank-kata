@@ -4,6 +4,7 @@ import it.twinsbrain.dojos.model.Balance;
 import it.twinsbrain.dojos.model.Deposit;
 import it.twinsbrain.dojos.model.Transaction;
 import it.twinsbrain.dojos.model.Withdraw;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,24 +29,20 @@ public class InMemoryAccountService implements AccountService {
 
   @Override
   public void deposit(int amount) {
-    try {
-      lockOnWrite.lock();
-      balance.increaseBy(amount);
-      transactionList.add(new Deposit(amount, time.now()));
-    } finally {
-      lockOnWrite.unlock();
-    }
+    atomically(
+        () -> {
+          balance.increaseBy(amount);
+          transactionList.add(new Deposit(amount, time.now()));
+        });
   }
 
   @Override
   public void withdraw(int amount) {
-    try {
-      lockOnWrite.lock();
-      balance.decreaseBy(amount);
-      transactionList.add(new Withdraw(amount, time.now()));
-    } finally {
-      lockOnWrite.unlock();
-    }
+    atomically(
+        () -> {
+          balance.decreaseBy(amount);
+          transactionList.add(new Withdraw(amount, time.now()));
+        });
   }
 
   @Override
@@ -66,7 +63,7 @@ public class InMemoryAccountService implements AccountService {
               balanceReversedQueue.add(newBalance);
             })
         .forEach(
-                transaction -> {
+            transaction -> {
               var amount =
                   switch (transaction) {
                     case Deposit deposit -> String.valueOf(deposit.amount());
@@ -82,9 +79,23 @@ public class InMemoryAccountService implements AccountService {
             });
   }
 
+  private void atomically(AccountUpdater action) {
+    try {
+      lockOnWrite.lock();
+      action.update();
+    } finally {
+      lockOnWrite.unlock();
+    }
+  }
+
   private static String padRight(String s, int n) {
     return String.format("%-" + n + "s", s);
   }
 
   private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+  @FunctionalInterface
+  private interface AccountUpdater {
+    void update();
+  }
 }

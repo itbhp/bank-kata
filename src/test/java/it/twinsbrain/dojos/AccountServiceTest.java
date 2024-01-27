@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 class AccountServiceTest {
 
   private final Time time =
-      new UpdatingTime(
-          LocalDateTime.parse("1970-01-12T12:30:00.000"), UnaryOperator.identity());
+      new UpdatingTime(LocalDateTime.parse("1970-01-12T12:30:00.000"), UnaryOperator.identity());
   private final InMemoryDisplay display = new InMemoryDisplay();
 
   @Test
@@ -53,9 +52,7 @@ class AccountServiceTest {
 
     assertThat(
         display.messages(),
-        contains(
-                "Date       || Amount || Balance",
-                "13/01/2024 || 3      || 3"));
+        contains("Date       || Amount || Balance", "13/01/2024 || 3      || 3"));
   }
 
   @Test
@@ -74,9 +71,7 @@ class AccountServiceTest {
 
     assertThat(
         display.messages(),
-        contains(
-                "Date       || Amount || Balance",
-                "13/01/2024 || -3     || -3"));
+        contains("Date       || Amount || Balance", "13/01/2024 || -3     || -3"));
   }
 
   @Test
