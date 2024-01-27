@@ -10,10 +10,10 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DisplayStatementPrinter implements StatementPrinter {
+public class OnlyTextStatementPrinter implements StatementPrinter {
   private final Display display;
 
-  public DisplayStatementPrinter(Display display) {
+  public OnlyTextStatementPrinter(Display display) {
     this.display = display;
   }
 

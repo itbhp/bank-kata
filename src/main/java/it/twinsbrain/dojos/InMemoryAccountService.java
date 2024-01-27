@@ -22,7 +22,7 @@ public class InMemoryAccountService implements AccountService {
   public InMemoryAccountService(Balance balance, Time time, Display display) {
     this.balance = balance;
     this.time = time;
-    this.statementPrinter = new DisplayStatementPrinter(display);
+    this.statementPrinter = new OnlyTextStatementPrinter(display);
   }
 
   @Override
