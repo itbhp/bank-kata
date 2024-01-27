@@ -84,8 +84,8 @@ public class InMemoryAccountService implements AccountService {
 
   private void atomically(AccountUpdater action) {
     Lock writeLock = lockOnWrite.writeLock();
+    writeLock.lock();
     try {
-      writeLock.lock();
       action.update();
     } finally {
       writeLock.unlock();
@@ -94,8 +94,8 @@ public class InMemoryAccountService implements AccountService {
 
   private void atomically(AccountReader action) {
     Lock readLock = lockOnWrite.readLock();
+    readLock.lock();
     try {
-      readLock.lock();
       action.read(balance, transactionList);
     } finally {
       readLock.unlock();
