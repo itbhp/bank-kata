@@ -26,13 +26,13 @@ public class OnlyTextStatementPrinter implements StatementPrinter {
         .sorted(Comparator.comparing(Transaction::time).reversed())
         .peek(
             m -> {
-              var prev = balanceReversedQueue.getLast();
-              var newBalance =
+              var current = balanceReversedQueue.getLast();
+              var previousBalance =
                   switch (m) {
-                    case Deposit deposit -> prev - deposit.amount();
-                    case Withdraw withdraw -> prev + withdraw.amount();
+                    case Deposit deposit -> current - deposit.amount();
+                    case Withdraw withdraw -> current + withdraw.amount();
                   };
-              balanceReversedQueue.add(newBalance);
+              balanceReversedQueue.add(previousBalance);
             })
         .forEach(
             transaction -> {
