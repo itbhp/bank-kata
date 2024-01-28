@@ -48,21 +48,21 @@ public class InMemoryAccount implements AccountService {
     concurrently(statementPrinter::printStatement);
   }
 
-  private void atomically(AccountUpdater action) {
+  private void atomically(AccountUpdater updates) {
     Lock writeLock = lockOnWrite.writeLock();
     writeLock.lock();
     try {
-      action.update();
+      updates.execute();
     } finally {
       writeLock.unlock();
     }
   }
 
-  private void concurrently(AccountReader action) {
+  private void concurrently(AccountReader read) {
     Lock readLock = lockOnWrite.readLock();
     readLock.lock();
     try {
-      action.read(balance, transactionList);
+      read.from(balance, transactionList);
     } finally {
       readLock.unlock();
     }
@@ -70,11 +70,11 @@ public class InMemoryAccount implements AccountService {
   
   @FunctionalInterface
   private interface AccountUpdater {
-    void update();
+    void execute();
   }
 
   @FunctionalInterface
   private interface AccountReader {
-    void read(Balance balance, List<Transaction> transactionList);
+    void from(Balance balance, List<Transaction> transactionList);
   }
 }

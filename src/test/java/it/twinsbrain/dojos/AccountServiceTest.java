@@ -1,18 +1,18 @@
 package it.twinsbrain.dojos;
 
+import static it.twinsbrain.dojos.UpdatingTime.Builder.anUpdatingTime;
+import static it.twinsbrain.dojos.UpdatingTime.fixedTimeAt;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 
 import it.twinsbrain.dojos.model.Balance;
 import java.time.LocalDateTime;
-import java.util.function.UnaryOperator;
 import org.junit.jupiter.api.Test;
 
 class AccountServiceTest {
 
-  private final Time time =
-      new UpdatingTime(LocalDateTime.parse("1970-01-12T12:30:00.000"), UnaryOperator.identity());
+  private final Time time = fixedTimeAt(LocalDateTime.parse("1970-01-12T12:30:00.000"));
   private final InMemoryDisplay display = new InMemoryDisplay();
 
   @Test
@@ -41,10 +41,7 @@ class AccountServiceTest {
     var balance = new Balance();
     var account =
         new InMemoryAccount(
-            balance,
-            new UpdatingTime(
-                LocalDateTime.parse("2024-01-13T17:50:00.000"), UnaryOperator.identity()),
-            display);
+            balance, fixedTimeAt(LocalDateTime.parse("2024-01-13T17:50:00.000")), display);
 
     account.deposit(3);
 
@@ -52,7 +49,8 @@ class AccountServiceTest {
 
     assertThat(
         display.messages(),
-        contains("Date       || Amount || Balance", "13/01/2024 || 3      || 3"));
+        contains("Date       || Amount || Balance",
+                 "13/01/2024 || 3      || 3"));
   }
 
   @Test
@@ -60,10 +58,7 @@ class AccountServiceTest {
     var balance = new Balance();
     var account =
         new InMemoryAccount(
-            balance,
-            new UpdatingTime(
-                LocalDateTime.parse("2024-01-13T17:50:00.000"), UnaryOperator.identity()),
-            display);
+            balance, fixedTimeAt(LocalDateTime.parse("2024-01-13T17:50:00.000")), display);
 
     account.withdraw(3);
 
@@ -71,7 +66,8 @@ class AccountServiceTest {
 
     assertThat(
         display.messages(),
-        contains("Date       || Amount || Balance", "13/01/2024 || -3     || -3"));
+        contains("Date       || Amount || Balance",
+                 "13/01/2024 || -3     || -3"));
   }
 
   @Test
@@ -80,10 +76,12 @@ class AccountServiceTest {
     var account =
         new InMemoryAccount(
             balance,
-            new UpdatingTime(
-                LocalDateTime.parse("2024-01-13T17:50:00.000"),
-                previousTime -> previousTime.plusDays(1)),
-            display);
+            anUpdatingTime()
+                .withInitialTime(LocalDateTime.parse("2024-01-13T17:50:00.000"))
+                .withNextTimeProvidedBy(previousTime -> previousTime.plusDays(1))
+                .build(),
+            display
+        );
 
     account.deposit(25);
     account.withdraw(3);
