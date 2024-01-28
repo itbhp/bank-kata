@@ -10,7 +10,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class InMemoryAccountService implements AccountService {
+public class InMemoryAccount implements AccountService {
   private final Balance balance;
   private final Time time;
   private final StatementPrinter statementPrinter;
@@ -19,7 +19,7 @@ public class InMemoryAccountService implements AccountService {
   private final ReadWriteLock lockOnWrite = new ReentrantReadWriteLock(true);
 
 
-  public InMemoryAccountService(Balance balance, Time time, Display display) {
+  public InMemoryAccount(Balance balance, Time time, Display display) {
     this.balance = balance;
     this.time = time;
     this.statementPrinter = new OnlyTextStatementPrinter(display);

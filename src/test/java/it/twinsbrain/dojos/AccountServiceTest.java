@@ -18,7 +18,7 @@ class AccountServiceTest {
   @Test
   void deposit_increases_balance() {
     var balance = new Balance();
-    var account = new InMemoryAccountService(balance, time, display);
+    var account = new InMemoryAccount(balance, time, display);
 
     account.deposit(10);
 
@@ -28,7 +28,7 @@ class AccountServiceTest {
   @Test
   void withdraw_decreases_balance() {
     var balance = new Balance();
-    var account = new InMemoryAccountService(balance, time, display);
+    var account = new InMemoryAccount(balance, time, display);
 
     account.deposit(10);
     account.withdraw(3);
@@ -40,7 +40,7 @@ class AccountServiceTest {
   void print_statement_after_one_deposit_works_fine() {
     var balance = new Balance();
     var account =
-        new InMemoryAccountService(
+        new InMemoryAccount(
             balance,
             new UpdatingTime(
                 LocalDateTime.parse("2024-01-13T17:50:00.000"), UnaryOperator.identity()),
@@ -59,7 +59,7 @@ class AccountServiceTest {
   void print_statement_after_one_withdraw_works_fine() {
     var balance = new Balance();
     var account =
-        new InMemoryAccountService(
+        new InMemoryAccount(
             balance,
             new UpdatingTime(
                 LocalDateTime.parse("2024-01-13T17:50:00.000"), UnaryOperator.identity()),
@@ -78,7 +78,7 @@ class AccountServiceTest {
   void print_movements_from_most_recent_or_in_reverse_chronological_order() {
     var balance = new Balance();
     var account =
-        new InMemoryAccountService(
+        new InMemoryAccount(
             balance,
             new UpdatingTime(
                 LocalDateTime.parse("2024-01-13T17:50:00.000"),
