@@ -13,11 +13,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class InMemoryAccountService implements AccountService {
   private final Balance balance;
   private final Time time;
-
   private final StatementPrinter statementPrinter;
 
   private final List<Transaction> transactionList = new ArrayList<>();
   private final ReadWriteLock lockOnWrite = new ReentrantReadWriteLock(true);
+
 
   public InMemoryAccountService(Balance balance, Time time, Display display) {
     this.balance = balance;
@@ -45,7 +45,7 @@ public class InMemoryAccountService implements AccountService {
 
   @Override
   public void printStatement() {
-    atomically(statementPrinter::printStatement);
+    concurrently(statementPrinter::printStatement);
   }
 
   private void atomically(AccountUpdater action) {
@@ -58,7 +58,7 @@ public class InMemoryAccountService implements AccountService {
     }
   }
 
-  private void atomically(AccountReader action) {
+  private void concurrently(AccountReader action) {
     Lock readLock = lockOnWrite.readLock();
     readLock.lock();
     try {
