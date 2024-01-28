@@ -1,4 +1,4 @@
-package it.twinsbrain.dojos;
+package it.twinsbrain.dojos.domain;
 
 public interface AccountService
 {

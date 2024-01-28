@@ -1,9 +1,7 @@
-package it.twinsbrain.dojos;
+package it.twinsbrain.dojos.domain;
 
-import it.twinsbrain.dojos.model.Balance;
-import it.twinsbrain.dojos.model.Deposit;
-import it.twinsbrain.dojos.model.Transaction;
-import it.twinsbrain.dojos.model.Withdraw;
+import it.twinsbrain.dojos.*;
+import it.twinsbrain.dojos.adapters.OnlyTextStatementPrinter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;

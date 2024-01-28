@@ -1,12 +1,14 @@
 package it.twinsbrain.dojos;
 
-import static it.twinsbrain.dojos.UpdatingTime.Builder.anUpdatingTime;
-import static it.twinsbrain.dojos.UpdatingTime.fixedTimeAt;
+import static it.twinsbrain.dojos.fixtures.UpdatingTime.Builder.anUpdatingTime;
+import static it.twinsbrain.dojos.fixtures.UpdatingTime.fixedTimeAt;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 
-import it.twinsbrain.dojos.model.Balance;
+import it.twinsbrain.dojos.domain.Balance;
+import it.twinsbrain.dojos.domain.InMemoryAccount;
+import it.twinsbrain.dojos.fixtures.InMemoryDisplay;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,6 @@
-package it.twinsbrain.dojos;
+package it.twinsbrain.dojos.fixtures;
 
+import it.twinsbrain.dojos.Time;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;

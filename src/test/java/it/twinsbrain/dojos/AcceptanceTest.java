@@ -3,7 +3,9 @@ package it.twinsbrain.dojos;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 
-import it.twinsbrain.dojos.model.Balance;
+import it.twinsbrain.dojos.domain.Balance;
+import it.twinsbrain.dojos.domain.InMemoryAccount;
+import it.twinsbrain.dojos.fixtures.InMemoryDisplay;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedList;

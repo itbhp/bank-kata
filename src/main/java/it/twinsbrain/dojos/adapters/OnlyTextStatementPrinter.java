@@ -1,10 +1,11 @@
-package it.twinsbrain.dojos;
+package it.twinsbrain.dojos.adapters;
 
-import it.twinsbrain.dojos.model.Balance;
-import it.twinsbrain.dojos.model.Deposit;
-import it.twinsbrain.dojos.model.Transaction;
-import it.twinsbrain.dojos.model.Withdraw;
-
+import it.twinsbrain.dojos.Display;
+import it.twinsbrain.dojos.domain.Balance;
+import it.twinsbrain.dojos.domain.Deposit;
+import it.twinsbrain.dojos.domain.StatementPrinter;
+import it.twinsbrain.dojos.domain.Transaction;
+import it.twinsbrain.dojos.domain.Withdraw;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.LinkedList;

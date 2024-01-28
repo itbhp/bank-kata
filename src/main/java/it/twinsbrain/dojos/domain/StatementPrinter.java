@@ -1,7 +1,5 @@
-package it.twinsbrain.dojos;
+package it.twinsbrain.dojos.domain;
 
-import it.twinsbrain.dojos.model.Balance;
-import it.twinsbrain.dojos.model.Transaction;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
-package it.twinsbrain.dojos;
+package it.twinsbrain.dojos.fixtures;
 
+import it.twinsbrain.dojos.Display;
 import java.util.ArrayList;
 import java.util.List;
 
