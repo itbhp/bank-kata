@@ -16,9 +16,11 @@ public class InMemoryAccount implements AccountService {
   private final List<Transaction> transactionList = new ArrayList<>();
   private final ReadWriteLock lockOnWrite = new ReentrantReadWriteLock(true);
 
-
   public InMemoryAccount(Balance balance, Time time, Display display) {
     this.balance = balance;
+    if (balance.value() > 0) {
+      transactionList.add(new Deposit(balance.value(), time.now()));
+    }
     this.time = time;
     this.statementPrinter = new OnlyTextStatementPrinter(display);
   }
@@ -65,7 +67,7 @@ public class InMemoryAccount implements AccountService {
       readLock.unlock();
     }
   }
-  
+
   @FunctionalInterface
   private interface AccountUpdater {
     void execute();
