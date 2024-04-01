@@ -25,7 +25,7 @@ public class OnlyTextStatementPrinter implements StatementPrinter {
     balanceReversedQueue.add(balance.value());
     transactionList.stream()
         .sorted(Comparator.comparing(Transaction::time).reversed())
-        .peek(
+        .peek(// side effects
             m -> {
               var current = balanceReversedQueue.getLast();
               var previousBalance =

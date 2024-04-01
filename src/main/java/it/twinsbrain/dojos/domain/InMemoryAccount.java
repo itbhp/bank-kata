@@ -21,6 +21,9 @@ public class InMemoryAccount implements AccountService {
     if (balance.value() > 0) {
       transactionList.add(new Deposit(balance.value(), time.now()));
     }
+    if (balance.value() < 0) {
+      transactionList.add(new Withdraw(balance.value(), time.now()));
+    }
     this.time = time;
     this.statementPrinter = new OnlyTextStatementPrinter(display);
   }
