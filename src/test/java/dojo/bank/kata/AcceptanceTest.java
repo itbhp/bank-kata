@@ -2,6 +2,8 @@ package dojo.bank.kata;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Clock;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,15 +11,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class AcceptanceTest {
+class AcceptanceTest {
 
   @Mock private Display display;
+  @Mock private TransactionRepository transactionRepository;
+  @Mock private Clock clock;
 
   @Test
   @Disabled
   void example_scenario_works() {
     // given
-    var account = new DefaultAccountService(display);
+    var account = new DefaultAccountService(display, transactionRepository, clock);
 
     // when
     account.deposit(1000);
