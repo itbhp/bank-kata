@@ -9,16 +9,18 @@ public class DefaultAccountService implements AccountService {
     private final Display display;
     private final TransactionRepository transactionRepository;
     private final Clock clock;
+    private final StatementPrinter statementPrinter;
 
     public DefaultAccountService(
         Display display,
-        TransactionRepository transactionRepository,
+        TransactionRepository repository,
         Clock clock
     ) {
 
         this.display = display;
-        this.transactionRepository = transactionRepository;
+        this.transactionRepository = repository;
         this.clock = clock;
+        this.statementPrinter = new StatementPrinter(repository);
     }
 
     @Override
@@ -43,6 +45,7 @@ public class DefaultAccountService implements AccountService {
 
     @Override
     public void printStatement() {
-
+        statementPrinter.printOn(display);
     }
+
 }
