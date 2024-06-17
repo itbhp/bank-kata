@@ -1,10 +1,12 @@
-package dojo.bank.kata;
+package dojo.bank.kata.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dojo.bank.kata.model.Transaction;
 
-public class InMemoryTransactionRepository implements TransactionRepository{
+
+public class InMemoryTransactionRepository implements TransactionRepository {
 
     private final List<Transaction> transactions = new ArrayList<>();
 

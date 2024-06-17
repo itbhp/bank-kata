@@ -1,7 +1,11 @@
-package dojo.bank.kata;
+package dojo.bank.kata.services;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+
+import dojo.bank.kata.repositories.TransactionRepository;
+import dojo.bank.kata.model.Deposit;
+import dojo.bank.kata.model.Withdrawal;
 
 
 public class DefaultAccountService implements AccountService {

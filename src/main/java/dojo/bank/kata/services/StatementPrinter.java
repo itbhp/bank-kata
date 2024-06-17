@@ -1,9 +1,14 @@
-package dojo.bank.kata;
+package dojo.bank.kata.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import dojo.bank.kata.model.Deposit;
+import dojo.bank.kata.model.Transaction;
+import dojo.bank.kata.model.Withdrawal;
+import dojo.bank.kata.repositories.TransactionRepository;
 
 
 public class StatementPrinter {
@@ -29,7 +34,6 @@ public class StatementPrinter {
                         balance.addAndGet(t.amount());
                         yield t.amount();
                     }
-                    default -> throw new IllegalArgumentException("Unknown transaction type");
                 };
                 var transactionTimestamp = transaction.timestamp();
                 return new StatementLine(

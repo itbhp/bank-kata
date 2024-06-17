@@ -1,6 +1,8 @@
-package dojo.bank.kata;
+package dojo.bank.kata.repositories;
 
 import java.util.List;
+
+import dojo.bank.kata.model.Transaction;
 
 
 public interface TransactionRepository {

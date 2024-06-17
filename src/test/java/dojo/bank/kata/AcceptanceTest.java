@@ -11,6 +11,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import dojo.bank.kata.repositories.InMemoryTransactionRepository;
+import dojo.bank.kata.services.DefaultAccountService;
+import dojo.bank.kata.services.Display;
+
+
 @ExtendWith(MockitoExtension.class)
 class AcceptanceTest {
 

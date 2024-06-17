@@ -1,4 +1,4 @@
-package dojo.bank.kata;
+package dojo.bank.kata.model;
 
 import java.time.LocalDateTime;
 

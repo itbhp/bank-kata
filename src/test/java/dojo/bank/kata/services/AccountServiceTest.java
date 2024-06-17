@@ -1,4 +1,4 @@
-package dojo.bank.kata;
+package dojo.bank.kata.services;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.inOrder;
@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import dojo.bank.kata.model.Deposit;
+import dojo.bank.kata.model.Withdrawal;
+import dojo.bank.kata.repositories.TransactionRepository;
 
 
 @ExtendWith(MockitoExtension.class)
