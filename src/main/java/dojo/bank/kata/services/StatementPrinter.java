@@ -21,7 +21,7 @@ public class StatementPrinter {
 
     public void printOn(Display display) {
         display.show("Date       || Amount || Balance");
-        AtomicInteger balance = new AtomicInteger(0);
+        var balance = new AtomicInteger(0);
         transactionRepository.allTransactions().stream()
             .sorted(Comparator.comparing(Transaction::timestamp))
             .map(transaction -> {

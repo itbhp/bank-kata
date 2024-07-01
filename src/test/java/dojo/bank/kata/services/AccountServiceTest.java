@@ -1,22 +1,19 @@
 package dojo.bank.kata.services;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.verify;
-
-import java.time.Clock;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.List;
-
+import dojo.bank.kata.model.Deposit;
+import dojo.bank.kata.model.Withdrawal;
+import dojo.bank.kata.repositories.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import dojo.bank.kata.model.Deposit;
-import dojo.bank.kata.model.Withdrawal;
-import dojo.bank.kata.repositories.TransactionRepository;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -29,18 +26,16 @@ class AccountServiceTest {
     private TransactionRepository transactionRepository;
 
     @Mock
-    private Clock clock;
+    private Time time;
 
     @Test
     void deposit_record_a_proper_transaction() {
         // given
-        given(clock.instant())
-            .willReturn(Instant.parse("2021-07-01T00:00:00Z"));
-        given(clock.getZone())
-            .willReturn(Clock.systemUTC().getZone());
+        given(time.now())
+            .willReturn(LocalDateTime.parse("2021-07-01T00:00:00"));
 
         // when
-        var account = new DefaultAccountService(display, transactionRepository, clock);
+        var account = new DefaultAccountService(display, transactionRepository, time);
         account.deposit(1000);
 
         // then
@@ -56,13 +51,11 @@ class AccountServiceTest {
     @Test
     void withdraw_record_a_proper_transaction() {
         // given
-        given(clock.instant())
-            .willReturn(Instant.parse("2021-07-01T00:00:00Z"));
-        given(clock.getZone())
-            .willReturn(Clock.systemUTC().getZone());
+        given(time.now())
+            .willReturn(LocalDateTime.parse("2021-07-01T00:00:00"));
 
         // when
-        var account = new DefaultAccountService(display, transactionRepository, clock);
+        var account = new DefaultAccountService(display, transactionRepository, time);
         account.withdraw(800);
 
         // then
@@ -87,7 +80,7 @@ class AccountServiceTest {
             );
 
         // when
-        var account = new DefaultAccountService(display, transactionRepository, clock);
+        var account = new DefaultAccountService(display, transactionRepository, time);
         account.printStatement();
 
         // then

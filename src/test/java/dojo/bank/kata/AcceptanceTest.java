@@ -1,39 +1,36 @@
 package dojo.bank.kata;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.inOrder;
-
-import java.time.Clock;
-import java.time.Instant;
-
+import dojo.bank.kata.repositories.InMemoryTransactionRepository;
+import dojo.bank.kata.services.DefaultAccountService;
+import dojo.bank.kata.services.Display;
+import dojo.bank.kata.services.Time;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import dojo.bank.kata.repositories.InMemoryTransactionRepository;
-import dojo.bank.kata.services.DefaultAccountService;
-import dojo.bank.kata.services.Display;
+import java.time.LocalDateTime;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.inOrder;
 
 
 @ExtendWith(MockitoExtension.class)
 class AcceptanceTest {
 
   @Mock private Display display;
-  @Mock private Clock clock;
+  @Mock private Time time;
 
   @Test
   void example_scenario_works() {
     // given
-    given(clock.instant())
-        .willReturn(Instant.parse("2012-01-10T00:00:00Z"))
-        .willReturn(Instant.parse("2012-01-13T00:00:00Z"))
-        .willReturn(Instant.parse("2012-01-14T00:00:00Z"));
-    given(clock.getZone())
-        .willReturn(Clock.systemUTC().getZone());
+    given(time.now())
+        .willReturn(LocalDateTime.parse("2012-01-10T00:00:00"))
+        .willReturn(LocalDateTime.parse("2012-01-13T00:00:00"))
+        .willReturn(LocalDateTime.parse("2012-01-14T00:00:00"));
 
     // when
-    var account = new DefaultAccountService(display, new InMemoryTransactionRepository(), clock);
+    var account = new DefaultAccountService(display, new InMemoryTransactionRepository(), time);
     account.deposit(1000);
     account.deposit(2000);
     account.withdraw(500);

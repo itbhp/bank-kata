@@ -12,18 +12,18 @@ public class DefaultAccountService implements AccountService {
 
     private final Display display;
     private final TransactionRepository transactionRepository;
-    private final Clock clock;
+    private final Time time;
     private final StatementPrinter statementPrinter;
 
     public DefaultAccountService(
         Display display,
         TransactionRepository repository,
-        Clock clock
+        Time clock
     ) {
 
         this.display = display;
         this.transactionRepository = repository;
-        this.clock = clock;
+        this.time = clock;
         this.statementPrinter = new StatementPrinter(repository);
     }
 
@@ -32,7 +32,7 @@ public class DefaultAccountService implements AccountService {
         transactionRepository.recordTransaction(
             new Deposit(
                 amount,
-                LocalDateTime.now(clock)
+                time.now()
             )
         );
     }
@@ -42,7 +42,7 @@ public class DefaultAccountService implements AccountService {
         transactionRepository.recordTransaction(
             new Withdrawal(
                 amount,
-                LocalDateTime.now(clock)
+                time.now()
             )
         );
     }
