@@ -1,15 +1,13 @@
 package dojo.bank.kata.services;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import dojo.bank.kata.model.Deposit;
 import dojo.bank.kata.model.Transaction;
-import dojo.bank.kata.model.Withdrawal;
 import dojo.bank.kata.repositories.TransactionRepository;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
+
+import static dojo.bank.kata.services.StatementLine.statementLine;
+import static java.util.Comparator.comparing;
 
 public class StatementPrinter {
 
@@ -21,44 +19,20 @@ public class StatementPrinter {
 
     public void printOn(Display display) {
         display.show("Date       || Amount || Balance");
-        var balance = new AtomicInteger(0);
-        transactionRepository.allTransactions().stream()
-            .sorted(Comparator.comparing(Transaction::timestamp))
-            .map(transaction -> {
-                var transactionAmount = switch (transaction) {
-                    case Withdrawal t -> {
-                        balance.addAndGet(-t.amount());
-                        yield -t.amount();
-                    }
-                    case Deposit t -> {
-                        balance.addAndGet(t.amount());
-                        yield t.amount();
-                    }
-                };
-                var transactionTimestamp = transaction.timestamp();
-                return new StatementLine(
-                    transactionTimestamp,
-                    String.format(
-                        "%s || %s || %d",
-                        padRight(FORMATTER.format(transactionTimestamp.toLocalDate()), 10),
-                        padRight(String.valueOf(transactionAmount), 6),
-                        balance.get()
-                    )
-                );
-            })
-            .sorted(Comparator.comparing(StatementLine::time).reversed())
-            .map(StatementLine::msg)
-            .forEach(display::show);
+        reverseOrderStatementLinesFrom(new AtomicInteger(0))
+                .forEach(display::show);
     }
 
-    private String padRight(String s, int n) {  // padRight method
-        return String.format("%-" + n + "s", s);
+    private Stream<String> reverseOrderStatementLinesFrom(AtomicInteger balance) {
+        return sortedTrasactions()
+                .map(transaction -> statementLine(transaction, balance))
+                .sorted(comparing(StatementLine::time).reversed())
+                .map(StatementLine::msg);
     }
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-
-    private record StatementLine(LocalDateTime time, String msg) {
-
+    private Stream<Transaction> sortedTrasactions() {
+        return transactionRepository.allTransactions().stream()
+                .sorted(comparing(Transaction::timestamp));
     }
+
 }
