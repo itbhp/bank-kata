@@ -1,7 +1,9 @@
 package it.twinsbrain.dojos.domain;
 
-import it.twinsbrain.dojos.*;
+import it.twinsbrain.dojos.Display;
+import it.twinsbrain.dojos.Time;
 import it.twinsbrain.dojos.adapters.OnlyTextStatementPrinter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -61,11 +63,11 @@ public class InMemoryAccount implements AccountService {
     }
   }
 
-  private void concurrently(AccountReader read) {
+  private void concurrently(AccountInfoGatherer gatherInfo) {
     Lock readLock = lockOnWrite.readLock();
     readLock.lock();
     try {
-      read.from(balance, transactionList);
+      gatherInfo.from(balance, transactionList);
     } finally {
       readLock.unlock();
     }
@@ -77,7 +79,7 @@ public class InMemoryAccount implements AccountService {
   }
 
   @FunctionalInterface
-  private interface AccountReader {
+  private interface AccountInfoGatherer {
     void from(Balance balance, List<Transaction> transactionList);
   }
 }
