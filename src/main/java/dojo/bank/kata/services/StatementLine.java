@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.lang.String.format;
+
 record StatementLine(LocalDateTime time, String msg) {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -16,7 +18,7 @@ record StatementLine(LocalDateTime time, String msg) {
         var transactionTimestamp = transaction.timestamp();
         return new StatementLine(
                 transactionTimestamp,
-                String.format(
+                format(
                         "%s || %s || %d",
                         padRight(FORMATTER.format(transactionTimestamp.toLocalDate()), 10),
                         padRight(String.valueOf(transactionAmount), 6),
@@ -39,6 +41,6 @@ record StatementLine(LocalDateTime time, String msg) {
     }
 
     private static String padRight(String s, int n) {
-        return String.format("%-" + n + "s", s);
+        return format("%-" + n + "s", s);
     }
 }

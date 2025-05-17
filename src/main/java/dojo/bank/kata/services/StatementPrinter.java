@@ -31,8 +31,7 @@ public class StatementPrinter {
     }
 
     private Stream<Transaction> sortedTrasactions() {
-        return transactionRepository.allTransactions().stream()
-                .sorted(comparing(Transaction::timestamp));
+        return transactionRepository.allTransactions().stream();
     }
 
 }
