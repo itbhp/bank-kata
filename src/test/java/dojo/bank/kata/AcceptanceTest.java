@@ -14,12 +14,13 @@ import java.time.LocalDateTime;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.inOrder;
 
-
 @ExtendWith(MockitoExtension.class)
 class AcceptanceTest {
 
-  @Mock private Display display;
-  @Mock private Time time;
+  @Mock
+  private Display display;
+  @Mock
+  private Time time;
 
   @Test
   void example_scenario_works() {

@@ -17,84 +17,84 @@ import dojo.bank.kata.model.Withdrawal;
 
 abstract class TransactionRepositoryContractTest {
 
-    @Nested
-    class RegisterTransaction {
+  @Nested
+  class RegisterTransaction {
 
-            @Test
-            void recordDeposit_should_save_it() {
-                // given
-                var deposit = new Deposit(
-                    1000,
-                    LocalDateTime.parse("2024-06-18T12:00:00")
-                );
+    @Test
+    void recordDeposit_should_save_it() {
+      // given
+      var deposit = new Deposit(
+          1000,
+          LocalDateTime.parse("2024-06-18T12:00:00")
+      );
 
-                // when
-                repository().recordTransaction(deposit);
+      // when
+      repository().recordTransaction(deposit);
 
-                // then
-                assertThat(
-                    repository().allTransactions(),
-                    containsInAnyOrder(deposit)
-                );
-            }
-
-            @Test
-            void recordWithdrawal_should_save_it() {
-                // given
-                var withdrawal = new Withdrawal(
-                    400,
-                    LocalDateTime.parse("2024-07-18T12:00:00")
-                );
-
-                // when
-                repository().recordTransaction(withdrawal);
-
-                // then
-                assertThat(
-                    repository().allTransactions(),
-                    containsInAnyOrder(withdrawal)
-                );
-            }
+      // then
+      assertThat(
+          repository().allTransactions(),
+          containsInAnyOrder(deposit)
+      );
     }
 
+    @Test
+    void recordWithdrawal_should_save_it() {
+      // given
+      var withdrawal = new Withdrawal(
+          400,
+          LocalDateTime.parse("2024-07-18T12:00:00")
+      );
 
-    @Nested
-    class AllTransactions {
+      // when
+      repository().recordTransaction(withdrawal);
 
-        @Test
-        void allTransactions_should_return_empty_list_when_no_transactions() {
-            // when
-            var allTransactions = repository().allTransactions();
+      // then
+      assertThat(
+          repository().allTransactions(),
+          containsInAnyOrder(withdrawal)
+      );
+    }
+  }
 
-            // then
-            assertThat(allTransactions, empty());
-        }
 
-        @Test
-        void allTransactions_should_return_all_transactions() {
-            // given
-            var withdrawal = new Withdrawal(
-                400,
-                LocalDateTime.parse("2024-07-18T12:00:00")
-            );
-            var deposit = new Deposit(
-                1000,
-                LocalDateTime.parse("2024-06-18T12:00:00")
-            );
-            var repository = repositoryWith(List.of(withdrawal, deposit));
+  @Nested
+  class AllTransactions {
 
-            // when
-            var allTransactions = repository.allTransactions();
+    @Test
+    void allTransactions_should_return_empty_list_when_no_transactions() {
+      // when
+      var allTransactions = repository().allTransactions();
 
-            // then
-            assertThat(
-                allTransactions,
-                containsInAnyOrder(deposit, withdrawal)
-            );
-        }
+      // then
+      assertThat(allTransactions, empty());
     }
 
-    protected abstract TransactionRepository repositoryWith(List<Transaction> transactions);
+    @Test
+    void allTransactions_should_return_all_transactions() {
+      // given
+      var withdrawal = new Withdrawal(
+          400,
+          LocalDateTime.parse("2024-07-18T12:00:00")
+      );
+      var deposit = new Deposit(
+          1000,
+          LocalDateTime.parse("2024-06-18T12:00:00")
+      );
+      var repository = repositoryWith(List.of(withdrawal, deposit));
 
-    protected abstract TransactionRepository repository();
+      // when
+      var allTransactions = repository.allTransactions();
+
+      // then
+      assertThat(
+          allTransactions,
+          containsInAnyOrder(deposit, withdrawal)
+      );
+    }
+  }
+
+  protected abstract TransactionRepository repositoryWith(List<Transaction> transactions);
+
+  protected abstract TransactionRepository repository();
 }

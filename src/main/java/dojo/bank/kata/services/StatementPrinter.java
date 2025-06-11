@@ -11,27 +11,27 @@ import static java.util.Comparator.comparing;
 
 public class StatementPrinter {
 
-    private final TransactionRepository transactionRepository;
+  private final TransactionRepository transactionRepository;
 
-    public StatementPrinter(TransactionRepository repository) {
-        this.transactionRepository = repository;
-    }
+  public StatementPrinter(TransactionRepository repository) {
+    this.transactionRepository = repository;
+  }
 
-    public void printOn(Display display) {
-        display.show("Date       || Amount || Balance");
-        reverseOrderStatementLinesFrom(new AtomicInteger(0))
-                .forEach(display::show);
-    }
+  public void printOn(Display display) {
+    display.show("Date       || Amount || Balance");
+    reverseOrderStatementLinesFrom(new AtomicInteger(0))
+        .forEach(display::show);
+  }
 
-    private Stream<String> reverseOrderStatementLinesFrom(AtomicInteger balance) {
-        return sortedTrasactions()
-                .map(transaction -> statementLine(transaction, balance))
-                .sorted(comparing(StatementLine::time).reversed())
-                .map(StatementLine::msg);
-    }
+  private Stream<String> reverseOrderStatementLinesFrom(AtomicInteger balance) {
+    return sortedTrasactions()
+        .map(transaction -> statementLine(transaction, balance))
+        .sorted(comparing(StatementLine::time).reversed())
+        .map(StatementLine::msg);
+  }
 
-    private Stream<Transaction> sortedTrasactions() {
-        return transactionRepository.allTransactions().stream();
-    }
+  private Stream<Transaction> sortedTrasactions() {
+    return transactionRepository.allTransactions().stream();
+  }
 
 }

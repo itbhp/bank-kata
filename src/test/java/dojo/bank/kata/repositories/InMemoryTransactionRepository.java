@@ -8,23 +8,23 @@ import dojo.bank.kata.model.Transaction;
 
 public class InMemoryTransactionRepository implements TransactionRepository {
 
-    private final List<Transaction> transactions;
+  private final List<Transaction> transactions;
 
-    public InMemoryTransactionRepository() {
-        this.transactions = new ArrayList<>();
-    }
+  public InMemoryTransactionRepository() {
+    this.transactions = new ArrayList<>();
+  }
 
-    public InMemoryTransactionRepository(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
+  public InMemoryTransactionRepository(List<Transaction> transactions) {
+    this.transactions = transactions;
+  }
 
-    @Override
-    public void recordTransaction(Transaction transaction) {
-       transactions.add(transaction);
-    }
+  @Override
+  public void recordTransaction(Transaction transaction) {
+    transactions.add(transaction);
+  }
 
-    @Override
-    public List<Transaction> allTransactions() {
-        return transactions;
-    }
+  @Override
+  public List<Transaction> allTransactions() {
+    return transactions;
+  }
 }
