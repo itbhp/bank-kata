@@ -7,7 +7,6 @@ import dojo.bank.kata.repositories.TransactionRepository;
 
 public class DefaultAccountService implements AccountService {
 
-  private final Display display;
   private final TransactionRepository transactionRepository;
   private final Time time;
   private final StatementPrinter statementPrinter;
@@ -18,10 +17,9 @@ public class DefaultAccountService implements AccountService {
       Time clock
   ) {
 
-    this.display = display;
     this.transactionRepository = repository;
     this.time = clock;
-    this.statementPrinter = new StatementPrinter(repository);
+    this.statementPrinter = new StatementPrinter(repository, display);
   }
 
   @Override
@@ -40,7 +38,7 @@ public class DefaultAccountService implements AccountService {
 
   @Override
   public void printStatement() {
-    statementPrinter.printOn(display);
+    statementPrinter.print();
   }
 
 }
