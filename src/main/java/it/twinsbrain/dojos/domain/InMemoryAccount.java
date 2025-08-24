@@ -6,7 +6,6 @@ import it.twinsbrain.dojos.adapters.OnlyTextStatementPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -36,7 +35,8 @@ public class InMemoryAccount implements AccountService {
         () -> {
           balance.increaseBy(amount);
           transactionList.add(new Deposit(amount, time.now()));
-        });
+        }
+    );
   }
 
   @Override
@@ -45,7 +45,8 @@ public class InMemoryAccount implements AccountService {
         () -> {
           balance.decreaseBy(amount);
           transactionList.add(new Withdraw(amount, time.now()));
-        });
+        }
+    );
   }
 
   @Override
@@ -54,7 +55,7 @@ public class InMemoryAccount implements AccountService {
   }
 
   private void atomically(AccountUpdater updates) {
-    Lock writeLock = lockOnWrite.writeLock();
+    var writeLock = lockOnWrite.writeLock();
     writeLock.lock();
     try {
       updates.execute();
@@ -64,7 +65,7 @@ public class InMemoryAccount implements AccountService {
   }
 
   private void concurrently(AccountInfoGatherer gatherInfo) {
-    Lock readLock = lockOnWrite.readLock();
+    var readLock = lockOnWrite.readLock();
     readLock.lock();
     try {
       gatherInfo.from(balance, transactionList);
