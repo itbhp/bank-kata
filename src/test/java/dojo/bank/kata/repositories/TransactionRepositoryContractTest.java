@@ -14,7 +14,6 @@ import dojo.bank.kata.model.Deposit;
 import dojo.bank.kata.model.Transaction;
 import dojo.bank.kata.model.Withdrawal;
 
-
 abstract class TransactionRepositoryContractTest {
 
   @Nested

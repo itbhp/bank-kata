@@ -9,18 +9,10 @@ import java.util.stream.Stream;
 import static dojo.bank.kata.services.StatementLine.statementLine;
 import static java.util.Comparator.comparing;
 
-public class StatementPrinter {
-
-  private final TransactionRepository transactionRepository;
-  private final Display display;
-
-  public StatementPrinter(
-      TransactionRepository repository,
-      Display display
-  ) {
-    this.transactionRepository = repository;
-    this.display = display;
-  }
+public record StatementPrinter(
+    TransactionRepository transactionRepository,
+    Display display
+) {
 
   public void print() {
     display.show("Date       || Amount || Balance");
