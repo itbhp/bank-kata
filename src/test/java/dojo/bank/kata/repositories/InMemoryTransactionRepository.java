@@ -6,16 +6,12 @@ import java.util.List;
 import dojo.bank.kata.model.Transaction;
 
 
-public class InMemoryTransactionRepository implements TransactionRepository {
-
-  private final List<Transaction> transactions;
+public record InMemoryTransactionRepository(
+    List<Transaction> transactions
+) implements TransactionRepository {
 
   public InMemoryTransactionRepository() {
-    this.transactions = new ArrayList<>();
-  }
-
-  public InMemoryTransactionRepository(List<Transaction> transactions) {
-    this.transactions = transactions;
+    this(new ArrayList<>());
   }
 
   @Override

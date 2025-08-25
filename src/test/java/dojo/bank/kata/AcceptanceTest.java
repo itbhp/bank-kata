@@ -24,19 +24,16 @@ class AcceptanceTest {
 
   @Test
   void example_scenario_works() {
-    // given
     given(time.now())
         .willReturn(LocalDateTime.parse("2012-01-10T00:00:00"))
         .willReturn(LocalDateTime.parse("2012-01-13T00:00:00"))
         .willReturn(LocalDateTime.parse("2012-01-14T00:00:00"));
 
-    // when
     var account = new DefaultAccountService(display, new InMemoryTransactionRepository(), time);
     account.deposit(1000);
     account.deposit(2000);
     account.withdraw(500);
 
-    // then
     account.printStatement();
 
     var inOrder = inOrder(display);

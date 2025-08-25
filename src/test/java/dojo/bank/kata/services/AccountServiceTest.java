@@ -30,15 +30,12 @@ class AccountServiceTest {
 
   @Test
   void deposit_record_a_proper_transaction() {
-    // given
     given(time.now())
         .willReturn(LocalDateTime.parse("2021-07-01T00:00:00"));
 
-    // when
     var account = new DefaultAccountService(display, transactionRepository, time);
     account.deposit(1000);
 
-    // then
     verify(transactionRepository)
         .recordTransaction(
             new Deposit(
@@ -50,15 +47,12 @@ class AccountServiceTest {
 
   @Test
   void withdraw_record_a_proper_transaction() {
-    // given
     given(time.now())
         .willReturn(LocalDateTime.parse("2021-07-01T00:00:00"));
 
-    // when
     var account = new DefaultAccountService(display, transactionRepository, time);
     account.withdraw(800);
 
-    // then
     verify(transactionRepository)
         .recordTransaction(
             new Withdrawal(
@@ -70,7 +64,6 @@ class AccountServiceTest {
 
   @Test
   void print_statement_with_reversed_order_transaction_list() {
-    // given
     given(transactionRepository.allTransactions())
         .willReturn(
             List.of(
@@ -79,11 +72,9 @@ class AccountServiceTest {
             )
         );
 
-    // when
     var account = new DefaultAccountService(display, transactionRepository, time);
     account.printStatement();
 
-    // then
     var inOrder = inOrder(display);
     inOrder.verify(display).show("Date       || Amount || Balance");
     inOrder.verify(display).show("03/07/2021 || -500   || 500");

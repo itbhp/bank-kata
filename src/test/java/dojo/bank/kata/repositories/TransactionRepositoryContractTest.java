@@ -22,16 +22,13 @@ abstract class TransactionRepositoryContractTest {
 
     @Test
     void recordDeposit_should_save_it() {
-      // given
       var deposit = new Deposit(
           1000,
           LocalDateTime.parse("2024-06-18T12:00:00")
       );
 
-      // when
       repository().recordTransaction(deposit);
 
-      // then
       assertThat(
           repository().allTransactions(),
           containsInAnyOrder(deposit)
@@ -40,16 +37,13 @@ abstract class TransactionRepositoryContractTest {
 
     @Test
     void recordWithdrawal_should_save_it() {
-      // given
       var withdrawal = new Withdrawal(
           400,
           LocalDateTime.parse("2024-07-18T12:00:00")
       );
 
-      // when
       repository().recordTransaction(withdrawal);
 
-      // then
       assertThat(
           repository().allTransactions(),
           containsInAnyOrder(withdrawal)
@@ -63,16 +57,13 @@ abstract class TransactionRepositoryContractTest {
 
     @Test
     void allTransactions_should_return_empty_list_when_no_transactions() {
-      // when
       var allTransactions = repository().allTransactions();
 
-      // then
       assertThat(allTransactions, empty());
     }
 
     @Test
     void allTransactions_should_return_all_transactions() {
-      // given
       var withdrawal = new Withdrawal(
           400,
           LocalDateTime.parse("2024-07-18T12:00:00")
@@ -83,10 +74,8 @@ abstract class TransactionRepositoryContractTest {
       );
       var repository = repositoryWith(List.of(withdrawal, deposit));
 
-      // when
       var allTransactions = repository.allTransactions();
 
-      // then
       assertThat(
           allTransactions,
           containsInAnyOrder(deposit, withdrawal)
